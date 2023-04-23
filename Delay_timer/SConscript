@@ -1,0 +1,14 @@
+from building import *
+
+cwd          = GetCurrentDir()   # 获取当前脚本路径
+include_path = [cwd]             # 将当前路径加入构建搜索的头文件路径
+src          = Split('''         
+bsp_timer.c
+''')                             # 源文件
+# 也可等效成 src = ['hello_wiota.c'] 或 src= Glob('*.c')
+
+# 使用DefineGroup创建一个名为hello_wiota的组
+# 该Group是否被添加到工程中，参与编译，取决于depend的宏是否在Kconfig中被使能。为空则不依赖宏
+group = DefineGroup('bsp_timer', src, depend = [''], CPPPATH = include_path)
+
+Return('group')                  # 将当前脚本指定的构建对象返回上级SCons脚本
